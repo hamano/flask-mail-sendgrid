@@ -1,24 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""
-Flask-Mail-SendGrid
-===================
-
-Installation
-````````````
-
-.. code:: bash
-    $ pip install flask-mail-sendgrid
-
-"""
 
 from setuptools import setup
 
+with open('README.md') as f:
+    long_description = f.read()
+
 setup(
     name='Flask-Mail-SendGrid',
-    version='0.1',
+    version='0.1.1',
     description="Flask extension for sendgrid. It has same interface with Flask-Mail.",
+    long_description=long_description,
     url="http://github.com/hamano/flask-mail-sendgrid",
     author = "HAMANO Tsukasa",
     author_email = "code@cuspy.org",
@@ -29,6 +21,7 @@ setup(
     ],
     license="MIT",
     classifiers=[
+        'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
