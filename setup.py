@@ -3,12 +3,12 @@
 
 from setuptools import setup
 
-with open('README.md') as f:
+with open('README.rst') as f:
     long_description = f.read()
 
 setup(
     name='Flask-Mail-SendGrid',
-    version='0.1.1',
+    version='0.1.3',
     description="Flask extension for sendgrid. It has same interface with Flask-Mail.",
     long_description=long_description,
     url="http://github.com/hamano/flask-mail-sendgrid",
