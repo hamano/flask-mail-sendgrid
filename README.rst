@@ -28,20 +28,27 @@ Configuring Flask-Mail-SendGrid
 -  SENDGRID\_API\_KEY: API Key for SendGrid
 -  MAIL\_DEFAULT\_SENDER: default sender
 
-Usage
------
-
 .. code:: python
 
     from flask import Flask
     from flask_mail_sendgrid import MailSendGrid
-    from flask_mail import Message
 
     app = Flask(__name__)
     mail = MailSendGrid(app)
-    msg = Message("Hello",
-                  sender="from@example.com",
-                  recipients=["to@example.com"])
+
+Sending messages
+----------------
+
+To send a message first create a Message instance:
+
+.. code:: python
+    from flask_mail import Message
+
+    @app.route("/")
+    def index():
+        msg = Message("Hello",
+                      sender="from@example.com",
+                      recipients=["to@example.com"])
 
 The message can contain a body and/or HTML:
 
