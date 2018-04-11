@@ -3,7 +3,8 @@ Flask-Mail-SendGrid
 
 Flask extension for sendgrid. It has same interface with Flask-Mail.
 
-Flask-Mail-SendGrid is friendly with another extention such as Flask-Security.
+Flask-Mail-SendGrid is friendly with another extention such as
+Flask-Security.
 
 Installing Flask-Mail-SendGrid
 ------------------------------
@@ -34,6 +35,7 @@ Configuring Flask-Mail-SendGrid
     from flask_mail_sendgrid import MailSendGrid
 
     app = Flask(__name__)
+    app.config['MAIL_SENDGRID_API_KEY'] = 'XXXXXXXX'
     mail = MailSendGrid(app)
 
 Sending messages
@@ -42,6 +44,7 @@ Sending messages
 To send a message first create a Message instance:
 
 .. code:: python
+
     from flask_mail import Message
 
     @app.route("/")
@@ -63,5 +66,3 @@ your Flask application:
 .. code:: python
 
     mail.send(msg)
-
-
