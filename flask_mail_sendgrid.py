@@ -26,6 +26,7 @@ class MailSendGrid():
     def init_app(self, app):
         state = {}
         self.api_key = app.config['MAIL_SENDGRID_API_KEY']
+        self.default_sender = app.config.get('MAIL_DEFAULT_SENDER', 'no-reply@localhost')
         self.sg = sendgrid.SendGridAPIClient(apikey=self.api_key)
         # register extension with app
         app.extensions = getattr(app, 'extensions', {})
@@ -36,6 +37,9 @@ class MailSendGrid():
         mail = Mail()
         if message.sender:
             mail.from_email = Email(message.sender)
+        else:
+            mail.from_email = Email(self.default_sender)
+
         if message.subject:
             mail.subject = message.subject
 

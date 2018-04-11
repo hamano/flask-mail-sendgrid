@@ -8,7 +8,7 @@ with open('README.rst') as f:
 
 setup(
     name='Flask-Mail-SendGrid',
-    version='0.1.5',
+    version='0.1.6',
     description="Flask extension for sendgrid. It has same interface with Flask-Mail.",
     long_description=long_description,
     url="http://github.com/hamano/flask-mail-sendgrid",
