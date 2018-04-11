@@ -25,7 +25,7 @@ or install latest version:
 Configuring Flask-Mail-SendGrid
 -------------------------------
 
--  SENDGRID\_API\_KEY: API Key for SendGrid
+-  MAIL\_SENDGRID\_API\_KEY: API Key for SendGrid
 -  MAIL\_DEFAULT\_SENDER: default sender
 
 .. code:: python
