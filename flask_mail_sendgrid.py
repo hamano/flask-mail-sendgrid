@@ -40,6 +40,10 @@ class MailSendGrid():
         else:
             mail.from_email = Email(self.default_sender)
 
+        template_id = getattr(message, 'template_id', None)
+        if template_id:
+            mail.template_id = template_id
+
         if message.subject:
             mail.subject = message.subject
 
@@ -48,6 +52,11 @@ class MailSendGrid():
                 personalization = Personalization()
                 for recipient in message.recipients:
                     personalization.add_to(Email(recipient))
+
+                template_data = getattr(message, 'template_data', None)
+                if template_data:
+                    personalization.dynamic_template_data = template_data
+                
                 mail.add_personalization(personalization)
             else:
                 raise Exception("unsupported type yet")
