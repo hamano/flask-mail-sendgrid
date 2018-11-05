@@ -63,6 +63,7 @@ The message can contain a body and/or HTML:
 Or, if you are using Templates in Sendgrid, you may specify a Template ID and Data:
 
 .. code:: python
+
     msg.template_id = 'my-template-id'
     msg.dynamic_template_data = {'first_name': 'John', 'last_name': 'Doe'}
 
