@@ -53,9 +53,9 @@ class MailSendGrid():
                 for recipient in message.recipients:
                     personalization.add_to(Email(recipient))
 
-                template_data = getattr(message, 'template_data', None)
-                if template_data:
-                    personalization.dynamic_template_data = template_data
+                dynamic_template_data = getattr(message, 'dynamic_template_data', None)
+                if dynamic_template_data:
+                    personalization.dynamic_template_data = dynamic_template_data
                 
                 mail.add_personalization(personalization)
             else:
