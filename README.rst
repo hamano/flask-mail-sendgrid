@@ -1,6 +1,10 @@
 Flask-Mail-SendGrid
 ===================
 
+.. image:: https://badge.fury.io/py/Flask-Mail-SendGrid.svg
+    :target: https://badge.fury.io/py/Flask-Mail-SendGrid
+
+
 Flask extension for sendgrid. It has same interface with Flask-Mail.
 
 Flask-Mail-SendGrid is friendly with another extention such as
