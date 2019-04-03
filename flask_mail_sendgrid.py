@@ -8,11 +8,13 @@
     :license: MIT, see LICENSE for more details.
 """
 
+import base64
 import sendgrid
 from sendgrid.helpers.mail import Mail
 from sendgrid.helpers.mail import Email
 from sendgrid.helpers.mail import Content
 from sendgrid.helpers.mail import Personalization
+from sendgrid.helpers.mail import Attachment
 from flask_mail import Message
 
 class MailSendGrid():
@@ -27,7 +29,7 @@ class MailSendGrid():
         state = {}
         self.api_key = app.config['MAIL_SENDGRID_API_KEY']
         self.default_sender = app.config.get('MAIL_DEFAULT_SENDER', 'no-reply@localhost')
-        self.sg = sendgrid.SendGridAPIClient(apikey=self.api_key)
+        self.sg = sendgrid.SendGridAPIClient(api_key=self.api_key)
         # register extension with app
         app.extensions = getattr(app, 'extensions', {})
         app.extensions['mail'] = self
@@ -56,7 +58,7 @@ class MailSendGrid():
                 dynamic_template_data = getattr(message, 'dynamic_template_data', None)
                 if dynamic_template_data:
                     personalization.dynamic_template_data = dynamic_template_data
-                
+
                 mail.add_personalization(personalization)
             else:
                 raise Exception("unsupported type yet")
@@ -68,6 +70,16 @@ class MailSendGrid():
 
         if message.reply_to:
             mail.reply_to = Email(message.reply_to)
+
+        if message.attachments:
+            for attachment in message.attachments:
+                file_content = base64.b64encode(attachment.data).decode('UTF-8')
+                mail.add_attachment(Attachment(
+                    file_content=file_content,
+                    file_name=attachment.filename,
+                    file_type=attachment.content_type,
+                    disposition=attachment.disposition,
+                ))
 
         return mail
 
