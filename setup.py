@@ -17,7 +17,7 @@ setup(
     py_modules=['flask_mail_sendgrid'],
     install_requires=[
         'Flask-Mail',
-        'SendGrid',
+        'SendGrid>=6.0.2',
     ],
     license="MIT",
     classifiers=[
