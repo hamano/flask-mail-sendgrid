@@ -88,6 +88,8 @@ class MailSendGrid():
         res = self.sg.client.mail.send.post(request_body=mail.get())
         if int(res.status_code / 100) != 2:
             raise Exception("error response from sendgrid {}".format(res.status_code))
+        
+        return res
 
     def __getattr__(self, name):
         return getattr(self.state, name, None)
