@@ -54,6 +54,8 @@ class MailSendGrid():
                 personalization = Personalization()
                 for recipient in message.recipients:
                     personalization.add_to(Email(recipient))
+            else:
+                raise Exception("Recipients must be list")
 
             if message.cc:
                 if type(message.cc) == list:
@@ -69,14 +71,15 @@ class MailSendGrid():
                 else:
                     raise Exception("type(bcc) must be list")
 
-                dynamic_template_data = getattr(message, 'dynamic_template_data', None)
-                if dynamic_template_data:
-                    personalization.dynamic_template_data = dynamic_template_data
 
-                mail.add_personalization(personalization)
-            else:
-                raise Exception("unsupported type yet")
+            dynamic_template_data = getattr(message, 'dynamic_template_data', None)
+            if dynamic_template_data:
+                personalization.dynamic_template_data = dynamic_template_data
 
+            mail.add_personalization(personalization)
+
+        else:
+            raise Exception("message must contain recipient(s)")
         if message.body:
             mail.add_content(Content("text/plain", message.body))
 
@@ -87,15 +90,17 @@ class MailSendGrid():
             mail.reply_to = Email(message.reply_to)
 
         if message.attachments:
-            for attachment in message.attachments:
-                file_content = base64.b64encode(attachment.data).decode('UTF-8')
-                mail.add_attachment(Attachment(
-                    file_content=file_content,
-                    file_name=attachment.filename,
-                    file_type=attachment.content_type,
-                    disposition=attachment.disposition,
-                ))
-
+            if type(message.recipients) == list:
+                for attachment in message.attachments:
+                    file_content = base64.b64encode(attachment['file_content']).decode()
+                    mail.add_attachment(Attachment(
+                        file_content=file_content,
+                        file_type=attachment['file_type'],
+                        file_name=attachment['file_name'],
+                        disposition=attachment['disposition'],
+                        content_id=attachment['content_id']))
+            else:
+                raise Exception("type(attachments) must be a list of dicts")
         return mail
 
     def send(self, message):
@@ -103,6 +108,8 @@ class MailSendGrid():
         res = self.sg.client.mail.send.post(request_body=mail.get())
         if int(res.status_code / 100) != 2:
             raise Exception("error response from sendgrid {}".format(res.status_code))
+        else:
+            return('Email sent successfully')
 
     def __getattr__(self, name):
         return getattr(self.state, name, None)
