@@ -55,9 +55,7 @@ To send a message first create a Message instance:
     def index():
         msg = Message("Hello",
                       sender="from@example.com",
-                      recipients=["to@example.com"],
-					  cc=["to@example.com"],
-					  bcc=["to@example.com"])
+                      recipients=["to@example.com"])
 
 The message can contain a body and/or HTML:
 
