@@ -55,6 +55,20 @@ class MailSendGrid():
                 for recipient in message.recipients:
                     personalization.add_to(Email(recipient))
 
+                if message.cc:
+                    if type(message.cc) == list:
+                        for recipient in message.cc:
+                            personalization.add_cc(Email(recipient))
+                    else:
+                        raise Exception("type(cc) must be list")
+
+                if message.bcc:
+                    if type(message.bcc) == list:
+                        for recipient in message.bcc:
+                            personalization.add_bcc(Email(recipient))
+                    else:
+                        raise Exception("type(bcc) must be list")
+
                 dynamic_template_data = getattr(message, 'dynamic_template_data', None)
                 if dynamic_template_data:
                     personalization.dynamic_template_data = dynamic_template_data
