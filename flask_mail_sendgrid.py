@@ -42,6 +42,9 @@ class MailSendGrid():
         else:
             mail.from_email = Email(self.default_sender)
 
+        if message.mail_options and message.mail_options.get('from_name'):
+            mail.from_email.name = message.mail_options.get('from_name')
+
         template_id = getattr(message, 'template_id', None)
         if template_id:
             mail.template_id = template_id

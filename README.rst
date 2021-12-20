@@ -55,6 +55,7 @@ To send a message first create a Message instance:
     def index():
         msg = Message("Hello",
                       sender="from@example.com",
+                      mail_options={'from_name': 'John'},
                       recipients=["to@example.com"])
 
 The message can contain a body and/or HTML:
