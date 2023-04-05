@@ -16,6 +16,7 @@ from sendgrid.helpers.mail import Content
 from sendgrid.helpers.mail import Personalization
 from sendgrid.helpers.mail import Attachment
 from flask_mail import Message
+from python_http_client.exceptions import BadRequestsError
 
 class MailSendGrid():
     def __init__(self, app=None):
@@ -41,6 +42,9 @@ class MailSendGrid():
             mail.from_email = Email(message.sender)
         else:
             mail.from_email = Email(self.default_sender)
+
+        if message.mail_options and message.mail_options.get('from_name'):
+            mail.from_email.name = message.mail_options.get('from_name')
 
         template_id = getattr(message, 'template_id', None)
         if template_id:
@@ -99,9 +103,12 @@ class MailSendGrid():
 
     def send(self, message):
         mail = self._make_sendgrid_mail(message)
-        res = self.sg.client.mail.send.post(request_body=mail.get())
-        if int(res.status_code / 100) != 2:
-            raise Exception("error response from sendgrid {}".format(res.status_code))
+        try:
+            res = self.sg.client.mail.send.post(request_body=mail.get())
+            if int(res.status_code / 100) != 2:
+                raise Exception("error response from sendgrid {}".format(res.status_code))
+        except BadRequestsError as e:
+            raise Exception("sendgrid response {}: {}".format(e.status_code, e.body))
 
     def __getattr__(self, name):
         return getattr(self.state, name, None)
