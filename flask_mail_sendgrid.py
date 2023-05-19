@@ -18,7 +18,8 @@ from sendgrid.helpers.mail import Attachment
 from flask_mail import Message
 from python_http_client.exceptions import BadRequestsError
 
-class MailSendGrid():
+
+class MailSendGrid:
     def __init__(self, app=None):
         self.app = app
         if app is not None:
@@ -36,7 +37,7 @@ class MailSendGrid():
         app.extensions['mail'] = self
         return state
 
-    def _make_sendgrid_mail(self, message):
+    def _make_sendgrid_mail(self, message: Message) -> Mail:
         mail = Mail()
         if message.sender:
             mail.from_email = Email(message.sender)
@@ -101,7 +102,7 @@ class MailSendGrid():
 
         return mail
 
-    def send(self, message):
+    def send(self, message: Message):
         mail = self._make_sendgrid_mail(message)
         try:
             res = self.sg.client.mail.send.post(request_body=mail.get())
